@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
   # Set in Sept 2024 as part of the macOS Sequoia release.
   system.stateVersion = 5;
 
@@ -75,6 +75,9 @@
     end
     # End Nix
     '';
+
+  # Keep paths inherited from GUI terminals after Nix's configured paths.
+  environment.systemPath = lib.mkAfter [ "\${PATH:-/usr/bin:/bin}" ];
 
   environment.shells = with pkgs; [ bashInteractive zsh fish ];
   environment.systemPackages = with pkgs; [
